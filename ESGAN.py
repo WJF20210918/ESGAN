@@ -7,13 +7,11 @@ import torch.nn as nn
 from PIL import Image
 import torch.nn.functional as F
 import torch.utils.data as Data
-from MyExperiments.Networks.VGG_16 import Vgg16
-from MyExperiments.Networks.AlexNet import AlexNet
-from MyExperiments.Networks.ResNet_18 import ResNet18
+from VGG_16 import Vgg16
+from AlexNet import AlexNet
+from ResNet_18 import ResNet18
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 
 # 读取数据
 def load_data(dir):
@@ -239,39 +237,7 @@ def evaluate_accuracy(net, strG, dir, batch_size):
             #     im.save(dir_image + N[i])
             #     np.save('F:/MyExperiment/enhanced_images/' + N[i].split('.')[0] + '.npy', i_out)
 
-            for i in range(batch_size):
-                if net(str_X[i][None, :, :, :]).argmax(dim=1) != 0:  # true->wrong
-                    if y[i] == 0:
-                        one += 1
-                    c_one += 1
-                if net(str_X[i][None, :, :, :]).argmax(dim=1) != 1:
-                    if y[i] == 1:
-                        two += 1
-                    c_two += 1
-                if net(str_X[i][None, :, :, :]).argmax(dim=1) != 2:
-                    if y[i] == 2:
-                        three += 1
-                    c_three += 1
-                if y[i] == 0:  # true->wrong
-                    if net(str_X[i][None, :, :, :]).argmax(dim=1) != 0:
-                        five += 1
-                    c_five += 1
-                # elif net(str_X[i][None, :, :, :]).argmax(dim=1) != 1:
-                #     if y[i] == 1:
-                #         two += 1
-                #     c_two += 1
-                # elif net(str_X[i][None, :, :, :]).argmax(dim=1) != 2:
-                #     if y[i] == 2:
-                #         three += 1
-                #     c_three += 1
-                # elif net(str_X[i][None, :, :, :]).argmax(dim=1) != 3:
-                #     if y[i] == 3:
-                #         four += 1
-                #     c_four += 1
-                # else:  # wrong->true
-                #     if y[i] == 4:
-                #         five += 1
-                #     c_five += 1
+            
 
             # acc_sum += (net(str_X).argmax(dim=1) == y).float().sum().cpu().item()
             n += y.shape[0]
